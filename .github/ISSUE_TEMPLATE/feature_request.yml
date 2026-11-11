@@ -1,0 +1,41 @@
+name: Feature request
+description: Suggest an improvement for HabiStride.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - Core habit tracking
+        - Insights
+        - Data and backup
+        - Accessibility
+        - Documentation or tooling
+        - Other
+  - type: checkboxes
+    id: principles
+    attributes:
+      label: Product principles
+      options:
+        - label: This can stay local-first and work without an account.
+          required: true
+        - label: This does not require a heavy framework or build step.

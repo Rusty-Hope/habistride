@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f6f6f8">
+  <meta name="description" content="A local-first habit tracker with flexible schedules, notes, monthly history, insights and calendar reminders.">
+  <meta property="og:title" content="HabiStride">
+  <meta property="og:description" content="A local-first habit tracker with flexible schedules, notes, insights and calendar reminders.">
+  <meta property="og:type" content="website">
+  <title>HabiStride — a local-first habit calendar</title>
+  <link rel="icon" href="./icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3.5" y="5" width="17" height="15" rx="4"></rect>
+            <path d="M8 3v4M16 3v4M3.5 10h17"></path>
+            <path d="m8.5 14.5 2.4 2.4 4.8-4.8"></path>
+          </svg>
+        </span>
+        <div class="brand-copy">
+          <h1 class="brand-name">HabiStride</h1>
+          <p class="brand-date" id="today-date"></p>
+        </div>
+      </div>
+
+      <nav class="view-tabs" aria-label="Views">
+        <button class="view-tab is-active" type="button" data-nav="today" aria-current="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="8"></circle><path d="M12 8v4l2.5 1.5"></path>
+          </svg>
+          <span>Today</span>
+        </button>
+        <button class="view-tab" type="button" data-nav="calendar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3.5" y="5" width="17" height="15" rx="4"></rect><path d="M8 3v4M16 3v4M3.5 10h17"></path>
+          </svg>
+          <span>Calendar</span>
+        </button>
+        <button class="view-tab" type="button" data-nav="insights">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19V5"></path><path d="M4 19h16"></path><path d="M7 15l3-4 3 2 4-6"></path>
+          </svg>
+          <span>Insights</span>
+        </button>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="theme-icon theme-icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path>
+          </svg>
+          <svg class="theme-icon theme-icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"></path>
+          </svg>
+        </button>
+
+        <button class="icon-button" id="settings-button" type="button" aria-label="Open settings" title="Settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5v.2h-4v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3v-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V3h4v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.1v4h-.1a1.7 1.7 0 0 0-1.5 1Z"></path>
+          </svg>
+        </button>
+
+        <button class="button button--primary add-habit-button" id="add-habit-button" type="button" aria-label="Add habit">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+          <span>Add habit</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main" class="app-main">
+      <section id="today-view" class="view" aria-label="Today" data-view="today"></section>
+      <section id="calendar-view" class="view" aria-label="Calendar" data-view="calendar" hidden></section>
+      <section id="insights-view" class="view" aria-label="Insights" data-view="insights" hidden></section>
+    </main>
+
+    <footer class="app-footer">
+      <p><span class="footer-mark" aria-hidden="true">●</span> Local-first. No account. No tracking.</p>
+      <p class="footer-version" id="app-version">HabiStride v2.0.0</p>
+    </footer>
+  </div>
+
+  <input id="import-input" type="file" accept=".json,application/json" hidden>
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="false"></div>
+
+  <dialog class="modal modal--onboarding" id="onboarding-dialog" aria-labelledby="onboarding-title">
+    <div class="modal-content">
+      <div class="onboarding-body">
+        <div class="brand-mark brand-mark--large" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3.5" y="5" width="17" height="15" rx="4"></rect>
+            <path d="M8 3v4M16 3v4M3.5 10h17"></path>
+            <path d="m8.5 14.5 2.4 2.4 4.8-4.8"></path>
+          </svg>
+        </div>
+        <p class="eyebrow">Welcome</p>
+        <h2 id="onboarding-title">Build a routine that fits your life.</h2>
+        <p class="onboarding-lead">Track habits at your own pace with flexible schedules, notes, monthly history and insights. Everything stays in your browser.</p>
+        <ul class="onboarding-points">
+          <li><span class="mini-check" aria-hidden="true">✓</span> Daily, weekly or weekday routines</li>
+          <li><span class="mini-check" aria-hidden="true">✓</span> Check-offs, counts and notes</li>
+          <li><span class="mini-check" aria-hidden="true">✓</span> JSON backup, CSV export and calendar reminders</li>
+        </ul>
+      </div>
+      <div class="modal-footer modal-footer--onboarding">
+        <button class="button button--ghost" id="onboarding-fresh" type="button">Start fresh</button>
+        <button class="button button--primary" id="onboarding-demo" type="button">Explore with demo</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal modal--wide modal--habit" id="habit-dialog" aria-labelledby="habit-dialog-title">
+    <form class="modal-content" id="habit-form" novalidate>
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Habit</p>
+          <h2 class="modal-title" id="habit-dialog-title">New habit</h2>
+        </div>
+        <button class="icon-button icon-button--small" id="habit-close" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </div>
+
+      <div class="modal-body habit-form-body">
+        <section class="template-section" id="habit-template-section">
+          <div class="field-heading"><span>Start from a template</span><span class="field-hint">Optional</span></div>
+          <div class="template-list" id="habit-template-list"></div>
+        </section>
+
+        <div class="form-field">
+          <label class="form-label" for="habit-name">Name</label>
+          <input class="text-input" id="habit-name" name="name" type="text" maxlength="80" autocomplete="off" spellcheck="false" placeholder="e.g. Read 20 pages">
+        </div>
+
+        <fieldset class="form-field">
+          <legend class="form-label">Icon</legend>
+          <div class="emoji-grid" id="habit-emoji-options"></div>
+        </fieldset>
+
+        <fieldset class="form-field">
+          <legend class="form-label">Color</legend>
+          <div class="color-grid" id="habit-color-options"></div>
+        </fieldset>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label" for="habit-goal-type">Goal</label>
+            <select class="select-input" id="habit-goal-type">
+              <option value="binary">Check off</option>
+              <option value="count">Track a number</option>
+            </select>
+          </div>
+
+          <div class="form-field" id="habit-schedule-field">
+            <label class="form-label" for="habit-schedule-type">Repeat</label>
+            <select class="select-input" id="habit-schedule-type">
+              <option value="daily">Every day</option>
+              <option value="weekdays">Specific days</option>
+              <option value="weekly">Times per week</option>
+              <option value="interval">Every N days</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field count-fields" id="habit-count-fields" hidden>
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label" for="habit-target">Daily target</label>
+              <input class="text-input" id="habit-target" type="number" min="1" step="1" inputmode="numeric" value="1">
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="habit-unit">Unit</label>
+              <input class="text-input" id="habit-unit" type="text" maxlength="24" placeholder="glasses, pages, minutes">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-field" id="habit-weekday-field" hidden>
+          <span class="form-label">Days of the week</span>
+          <div class="weekday-picker" id="habit-weekday-options" role="group" aria-label="Days of the week"></div>
+        </div>
+
+        <div class="form-field" id="habit-times-field" hidden>
+          <label class="form-label" for="habit-times">Target per week</label>
+          <input class="text-input text-input--short" id="habit-times" type="number" min="1" max="7" step="1" inputmode="numeric" value="3">
+          <p class="field-help">Complete this many sessions between Monday and Sunday.</p>
+        </div>
+
+        <div class="form-field" id="habit-interval-field" hidden>
+          <label class="form-label" for="habit-interval">Every how many days?</label>
+          <input class="text-input text-input--short" id="habit-interval" type="number" min="2" max="365" step="1" inputmode="numeric" value="2">
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label" for="habit-start">Start date</label>
+            <input class="text-input" id="habit-start" type="date">
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="habit-reminder-time">Calendar reminder</label>
+            <div class="reminder-row">
+              <label class="checkbox-label"><input type="checkbox" id="habit-reminder-enabled"> Remind me</label>
+              <input class="text-input text-input--time" id="habit-reminder-time" type="time" value="09:00" aria-label="Reminder time">
+            </div>
+            <p class="field-help">Exported as an .ics reminder in Settings.</p>
+          </div>
+        </div>
+
+        <p class="form-error" id="habit-form-error" role="alert" hidden></p>
+      </div>
+
+      <div class="modal-footer modal-footer--habit">
+        <div class="modal-footer-left">
+          <button class="button button--ghost button--small" id="habit-archive" type="button" hidden>Archive</button>
+          <button class="button button--danger-quiet button--small" id="habit-delete" type="button" hidden>Delete</button>
+        </div>
+        <div class="modal-footer-actions">
+          <button class="button button--ghost" id="habit-cancel" type="button">Cancel</button>
+          <button class="button button--primary" id="habit-save" type="submit">Create habit</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal modal--day" id="day-dialog" aria-labelledby="day-dialog-title" aria-describedby="day-dialog-subtitle">
+    <form class="modal-content" id="day-form" novalidate>
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow" id="day-dialog-subtitle"></p>
+          <h2 class="modal-title" id="day-dialog-title">Day details</h2>
+        </div>
+        <button class="icon-button icon-button--small" id="day-close" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p class="day-meta" id="day-meta"></p>
+
+        <div class="day-completion">
+          <div class="form-field" id="day-binary-field">
+            <label class="completion-toggle">
+              <input type="checkbox" id="day-completed">
+              <span class="completion-box" aria-hidden="true">✓</span>
+              <span>Completed</span>
+            </label>
+          </div>
+
+          <div class="form-field" id="day-count-field" hidden>
+            <span class="form-label">Progress</span>
+            <div class="day-count-control">
+              <button class="count-step" type="button" id="day-dec" aria-label="Decrease">−</button>
+              <input class="text-input text-input--count" id="day-count" type="number" min="0" step="1" inputmode="numeric" value="0">
+              <button class="count-step" type="button" id="day-inc" aria-label="Increase">+</button>
+              <span class="day-count-goal" id="day-count-goal"></span>
+            </div>
+          </div>
+
+          <label class="checkbox-label day-skip-label">
+            <input type="checkbox" id="day-skip">
+            Rest day
+          </label>
+          <p class="field-help">A rest day is neutral: it won’t count as a miss or break your streak.</p>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="day-note">Note</label>
+          <textarea class="text-area" id="day-note" rows="4" maxlength="1000" placeholder="What made today easier or harder?"></textarea>
+        </div>
+
+        <p class="form-error" id="day-form-error" role="alert" hidden></p>
+      </div>
+
+      <div class="modal-footer modal-footer--day">
+        <button class="button button--ghost button--small" id="day-clear" type="button">Clear entry</button>
+        <div class="modal-footer-actions">
+          <button class="button button--ghost" id="day-cancel" type="button">Cancel</button>
+          <button class="button button--primary" id="day-save" type="submit">Save</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="modal modal--settings" id="settings-dialog" aria-labelledby="settings-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">HabiStride</p>
+          <h2 class="modal-title" id="settings-title">Settings</h2>
+        </div>
+        <button class="icon-button icon-button--small" id="settings-close" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+        </button>
+      </div>
+      <div class="settings-content" id="settings-content"></div>
+    </div>
+  </dialog>
+
+  <dialog class="modal modal--confirm" id="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-message">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <p class="eyebrow">Please confirm</p>
+          <h2 class="modal-title" id="confirm-title"></h2>
+        </div>
+      </div>
+      <div class="modal-body">
+        <p class="confirm-message" id="confirm-message"></p>
+      </div>
+      <div class="modal-footer modal-footer--end">
+        <button class="button button--ghost" id="confirm-cancel" type="button">Cancel</button>
+        <button class="button button--danger" id="confirm-accept" type="button">Confirm</button>
+      </div>
+    </div>
+  </dialog>
+
+  <noscript>
+    <p class="noscript">HabiStride needs JavaScript enabled to run.</p>
+  </noscript>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

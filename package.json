@@ -1,0 +1,18 @@
+{
+  "name": "habistride",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A local-first habit tracker with flexible schedules, notes, insights and calendar reminders.",
+  "keywords": ["habistride", "habit-tracker", "vanilla-javascript", "local-first", "pwa", "productivity"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node scripts/serve.js",
+    "test": "node --test tests/ics.test.js tests/schedule.test.js tests/schema.test.js tests/stats.test.js tests/store.test.js",
+    "test:watch": "node --test --watch tests/ics.test.js tests/schedule.test.js tests/schema.test.js tests/stats.test.js tests/store.test.js",
+    "icons": "node scripts/generate-icons.js"
+  }
+}
